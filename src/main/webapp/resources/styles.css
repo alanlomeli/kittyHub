@@ -5,7 +5,7 @@ and open the template in the editor.
 */
 /* 
     Created on : Apr 17, 2020, 9:25:04 PM
-    Author     : alanlomeli
+    Author     : marianabojorquez
 */ 
 
 button{
@@ -17,4 +17,12 @@ body{
     margin:0;
     background-color: black;
     
+}
+p{
+    color:#A3A1A1!important;
+    
+}
+.OutputTextTag{
+        color:#A3A1A1!important;
+
 }

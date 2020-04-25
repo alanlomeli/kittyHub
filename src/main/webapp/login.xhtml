@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Iniciar sesión</title>
+        <style>
+            body .ui-panelgrid .ui-panelgrid-cell {
+                border: none!important;
+            }
+
+            .indicadores{
+                font-size: 20px;
+                float:left;
+            }
+            .input{
+                float:right;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="toolbar.xhtml" />
+        </ui:insert>
+        <h:form>
+            <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:60px auto;width:500px"   >  
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <f:facet name="header">  
+                    <h:outputText value="Iniciar sesión"  style="float:left"/>
+                </f:facet>
+                <p:row >
+                    <h:graphicImage    width="50px" height="50px" name="imagenes/logo_simple.png" />
+                    <h4>Iniciar&nbsp;sesión</h4>
+                </p:row>
+
+                <p:row>
+                    <h:outputText styleClass="indicadores" value="Usuario&nbsp;:" />
+                    <p:inputTextarea value="#{iniciarSesion.campoUsuario}" required="true" styleClass="input" rows="1" cols="33" label="Usuario"/>
+
+                    <br/>                        <br/>
+                    <br/>
+
+                    <h:outputText styleClass="indicadores" value="Contraseña&nbsp;:" />
+                    <p:password value="#{iniciarSesion.campoContra}" required="true" style="width:292px;height:30px" styleClass="input" label="Contraseña" />
+                </p:row>
+
+                <p:row >
+                    <center>
+                        <p:commandButton  value="Iniciar sesión" actionListener="#{iniciarSesion.clickIniciarsesion()}" validateClient="true"/>
+                        <br/>
+                        <a href=""><h:outputText style="color:#2566C7;text-align: center;font-size: 15px" value="Registrarse" /></a>
+                    </center>
+                </p:row>
+
+
+            </p:panelGrid>
+
+
+
+
+
+        </h:form>
+    </h:body>
+</html>
+
