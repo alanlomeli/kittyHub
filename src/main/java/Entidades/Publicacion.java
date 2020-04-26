@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Entity
 @Table(name = "publicacion")
@@ -66,7 +66,7 @@ public class Publicacion implements Serializable {
     @JoinColumn(name = "raza_fk", referencedColumnName = "raza_id")
     @ManyToOne
     private Raza razaFk;
-    @JoinColumn(name = "usuario_fk", referencedColumnName = "usuario")
+    @JoinColumn(name = "usuario_fk", referencedColumnName = "usuario_id")
     @ManyToOne
     private Usuario usuarioFk;
 

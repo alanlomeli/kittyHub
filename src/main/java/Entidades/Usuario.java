@@ -7,15 +7,20 @@ package Entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,23 +28,30 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
+
 @Entity
 @Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByUsuarioId", query = "SELECT u FROM Usuario u WHERE u.usuarioId = :usuarioId"),
     @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario"),
     @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
     @NamedQuery(name = "Usuario.findByApellido", query = "SELECT u FROM Usuario u WHERE u.apellido = :apellido"),
     @NamedQuery(name = "Usuario.findByGenero", query = "SELECT u FROM Usuario u WHERE u.genero = :genero"),
     @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo"),
     @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo")})
+
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "usuario_id")
+    private Integer usuarioId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -64,12 +76,27 @@ public class Usuario implements Serializable {
     private List<Peticion> peticionList;
     @OneToMany(mappedBy = "usuarioFk")
     private List<Publicacion> publicacionList;
+    
+  
 
     public Usuario() {
     }
 
-    public Usuario(String usuario) {
+    public Usuario(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public Usuario(Integer usuarioId, String usuario) {
+        this.usuarioId = usuarioId;
         this.usuario = usuario;
+    }
+
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getUsuario() {
@@ -149,7 +176,7 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (usuario != null ? usuario.hashCode() : 0);
+        hash += (usuarioId != null ? usuarioId.hashCode() : 0);
         return hash;
     }
 
@@ -160,15 +187,17 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.usuario == null && other.usuario != null) || (this.usuario != null && !this.usuario.equals(other.usuario))) {
+        if ((this.usuarioId == null && other.usuarioId != null) || (this.usuarioId != null && !this.usuarioId.equals(other.usuarioId))) {
             return false;
         }
         return true;
     }
 
+
+
     @Override
     public String toString() {
-        return "Entidades.Usuario[ usuario=" + usuario + " ]";
+        return "Entidades.Usuario[ usuarioId=" + usuarioId + " ]";
     }
-    
+
 }

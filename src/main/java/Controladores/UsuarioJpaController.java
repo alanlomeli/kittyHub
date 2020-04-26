@@ -6,7 +6,6 @@
 package Controladores;
 
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -23,7 +22,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class UsuarioJpaController implements Serializable {
 
@@ -37,7 +36,7 @@ public class UsuarioJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Usuario usuario) throws PreexistingEntityException, Exception {
+    public void create(Usuario usuario) {
         if (usuario.getPeticionList() == null) {
             usuario.setPeticionList(new ArrayList<Peticion>());
         }
@@ -80,11 +79,6 @@ public class UsuarioJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findUsuario(usuario.getUsuario()) != null) {
-                throw new PreexistingEntityException("Usuario " + usuario + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -97,7 +91,7 @@ public class UsuarioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario persistentUsuario = em.find(Usuario.class, usuario.getUsuario());
+            Usuario persistentUsuario = em.find(Usuario.class, usuario.getUsuarioId());
             List<Peticion> peticionListOld = persistentUsuario.getPeticionList();
             List<Peticion> peticionListNew = usuario.getPeticionList();
             List<Publicacion> publicacionListOld = persistentUsuario.getPublicacionList();
@@ -155,7 +149,7 @@ public class UsuarioJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = usuario.getUsuario();
+                Integer id = usuario.getUsuarioId();
                 if (findUsuario(id) == null) {
                     throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.");
                 }
@@ -168,7 +162,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -176,7 +170,7 @@ public class UsuarioJpaController implements Serializable {
             Usuario usuario;
             try {
                 usuario = em.getReference(Usuario.class, id);
-                usuario.getUsuario();
+                usuario.getUsuarioId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
@@ -223,7 +217,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
-    public Usuario findUsuario(String id) {
+    public Usuario findUsuario(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);

@@ -5,26 +5,33 @@
  */
 package Beans;
 
-//import Controladores.UsuarioJpaController;
+import Controladores.AES;
+import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Query;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
 @RequestScoped
-public class IniciarSesion implements Serializable{
+public class IniciarSesion implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Inject
-    Usuario usuario;
-    
+    Sesion sesion;
+
     private String campoUsuario;
     private String campoContra;
 
@@ -44,15 +51,42 @@ public class IniciarSesion implements Serializable{
         this.campoContra = campoContra;
     }
 
-   // UsuarioJpaController usuarioController;
+    UsuarioJpaController usuarioController;
 
     @PostConstruct
     public void init() {
-       // usuarioController = new UsuarioJpaController();
+        usuarioController = new UsuarioJpaController();
     }
 
     public void clickIniciarsesion() {
-        System.out.println(campoUsuario+" "+campoContra);
+
+        Query query = usuarioController.getEntityManager().createNamedQuery("Usuario.findByUsuario");
+        query.setParameter("usuario", campoUsuario);
+
+        if (query.getResultList().size() > 0) {
+            Usuario usuarioTemp = (Usuario) query.getSingleResult();
+            if (AES.decrypt(new String(usuarioTemp.getContrasena())).equals(campoContra)) {
+                // FacesContext.getCurrentInstance().addMessage(null,
+                //new FacesMessage("Bienvenido "+campoUsuario));
+                sesion.setIniciado(true); //Ponemos el usuario al bean para que se inicie sesión
+                sesion.setUsuario(campoUsuario);
+                sesion.setTipo(usuarioTemp.getTipo());
+                System.out.println(sesion.getTipo());
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home
+                } catch (IOException ex) {
+                    System.out.println("Error redireccionando");
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos", null));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos", null));
+        }
+        usuarioController = new UsuarioJpaController();
+
     }
 
 }

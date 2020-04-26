@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Entity
 @Table(name = "peticion")
@@ -52,7 +52,7 @@ public class Peticion implements Serializable {
     @JoinColumn(name = "publicacion_fk", referencedColumnName = "publicacion_Id")
     @ManyToOne
     private Publicacion publicacionFk;
-    @JoinColumn(name = "usuario_fk", referencedColumnName = "usuario")
+    @JoinColumn(name = "usuario_fk", referencedColumnName = "usuario_id")
     @ManyToOne
     private Usuario usuarioFk;
 

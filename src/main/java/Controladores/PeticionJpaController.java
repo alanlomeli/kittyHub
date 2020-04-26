@@ -21,7 +21,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class PeticionJpaController implements Serializable {
 
@@ -47,7 +47,7 @@ public class PeticionJpaController implements Serializable {
             }
             Usuario usuarioFk = peticion.getUsuarioFk();
             if (usuarioFk != null) {
-                usuarioFk = em.getReference(usuarioFk.getClass(), usuarioFk.getUsuario());
+                usuarioFk = em.getReference(usuarioFk.getClass(), usuarioFk.getUsuarioId());
                 peticion.setUsuarioFk(usuarioFk);
             }
             em.persist(peticion);
@@ -82,7 +82,7 @@ public class PeticionJpaController implements Serializable {
                 peticion.setPublicacionFk(publicacionFkNew);
             }
             if (usuarioFkNew != null) {
-                usuarioFkNew = em.getReference(usuarioFkNew.getClass(), usuarioFkNew.getUsuario());
+                usuarioFkNew = em.getReference(usuarioFkNew.getClass(), usuarioFkNew.getUsuarioId());
                 peticion.setUsuarioFk(usuarioFkNew);
             }
             peticion = em.merge(peticion);
