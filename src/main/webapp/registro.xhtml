@@ -6,12 +6,63 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Home</title>
+        <title>Regístrate</title>
+        <style>
+           
+
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <h:form>
+            <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:60px auto;width:500px"   >  
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <f:facet name="header">  
+                    <h:outputText value="Registrarse "  style="float:left"/>
+                </f:facet>
+                <p:row >
+                    <h:graphicImage    width="50px" height="50px" name="imagenes/logo_simple.png" />
+                    <h4>Registrarse</h4>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="usuario" value="Usuario:" /><p:inputText value="#{registro.campoUsuario}" required="true" styleClass="entrada" size="40" id="usuario">  
+                        <f:validateLength minimum="5" maximum="15" />
+                    </p:inputText>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre:" /><p:inputText value="#{registro.campoNombre}" required="true" styleClass="entrada" size="40" id="nombre"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="apellido" value="Apellido:" /><p:inputText value="#{registro.campoApellido}" required="true" styleClass="entrada" size="40" id="apellido"/> 
+                </p:row>
+
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="genero" value="Género:" />
+                    <p:selectOneMenu value="#{registro.genero}" styleClass="entrada" required="true"  id="genero"  >
+                        <f:selectItem itemLabel="Elija el genero" itemValue="" />
+                        <f:selectItem itemLabel="Masculino" itemValue="0" />
+                        <f:selectItem itemLabel="Femenino" itemValue="1" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="contra" value="Clave:" />  <p:inputText value="#{registro.contra}" required="true" type="password" styleClass="entrada" size="40" id="contra"> 
+                        <f:validateLength minimum="7" maximum="15" />
+                    </p:inputText>
+                </p:row>
+                <p:row >
+                    <center>
+                        <p:commandButton value="Registrarse" actionListener="#{registro.clickRegistro()}" validateClient="true"/>
+                        <br/>
+                        <a href="login.xhtml"><h:outputText style="color:#2566C7;text-align: center;font-size: 15px" value="Iniciar sesión" /></a>
+                    </center>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
     </h:body>
 </html>
 

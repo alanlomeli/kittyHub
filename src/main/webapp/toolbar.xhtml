@@ -21,13 +21,15 @@
                 align-items: center;
                 height:60px;
             }
+
+
         </style>
     </h:head>
     <h:body>
         <h:form>     
             <p:growl id="messages" showDetail="true" />
 
-            <p:toolbar>
+            <p:toolbar> 
 
                 <f:facet name="left" >
                     <div id="izquierda">
@@ -35,15 +37,23 @@
                             <h:graphicImage   width="200px" height="60px" name="imagenes/logo.png" />
                         </p:link>
                         <h:panelGroup styleClass="opcionesSesion" rendered="#{toolbar.sesion.iniciado}">
-                            <p:commandButton   style="margin-left:20px;" id="dynaButton"  value="#{toolbar.paginaActual}" type="button" icon="ui-icon-triangle-1-s"/>  
-                            <p:menu    model="#{toolbar.modelo}" overlay="true" trigger="dynaButton" my="left top" at="left bottom" />   
+                            <p:menuButton  icon="#{toolbar.iconoActual}" style="margin-left:20px;" rendered="#{toolbar.sesion.iniciado}" value="#{toolbar.paginaActual}">
+                                <p:menuitem value="Home" icon="fa fa-rocket" outcome="index"  />
+                                <p:menuitem value="Mis solicitudes" icon="fa fa-share"  outcome="mis_solicitudes" />
+                                <p:menuitem value="Peticiones" icon="fa fa-question"  outcome="peticiones"/>
+                                <p:menuitem value="Mis publicaciones" icon="fa fa-list-ol"  outcome="mis_publicaciones" />
+                                <p:menuitem value="Mis gatos" icon="fa fa-heart" outcome="mis_gatos"  />
+                                <p:menuitem value="Posts" icon="fa fa-pencil-square-o"  outcome="posts" rendered="#{toolbar.sesion.tipo==2 or toolbar.sesion.tipo==3}" />
+                                <p:menuitem value="Usuarios" icon="fa fa-reddit" outcome="usuarios" rendered="#{toolbar.sesion.tipo==3}" />
+
+                            </p:menuButton> 
                         </h:panelGroup>
                     </div>
                 </f:facet>
 
                 <f:facet name="right">
-                    <p:menuButton styleClass="opcionesSesion" rendered="#{toolbar.sesion.iniciado}" value="#{toolbar.sesion.usuario}">
-                        <p:menuitem value="Cerrar sesión" actionListener="#{toolbar.cerrarSesion()}"   />
+                    <p:menuButton icon="fa fa-github-alt" styleClass="opcionesSesion" rendered="#{toolbar.sesion.iniciado}" value="⠀#{toolbar.sesion.usuario}⠀▾">
+                        <p:menuitem icon="fa fa-sign-out" value="⠀Cerrar sesión" actionListener="#{toolbar.cerrarSesion()}"   />
 
 
                     </p:menuButton>

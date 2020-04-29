@@ -8,6 +8,9 @@
     <class>Entidades.Raza</class>
     <class>Entidades.Ubicacion</class>
     <class>Entidades.Usuario</class>
+    <class>Entidades.Raza_1</class>
+    <class>Entidades.Usuario_1</class>
+    <class>Entidades.Ubicacion_1</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kittyhub?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

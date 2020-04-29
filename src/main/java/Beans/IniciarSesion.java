@@ -11,7 +11,6 @@ import Entidades.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -30,28 +29,11 @@ public class IniciarSesion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Inject
-    Sesion sesion;
+    private Sesion sesion;
 
     private String campoUsuario;
     private String campoContra;
-
-    public String getCampoUsuario() {
-        return campoUsuario;
-    }
-
-    public void setCampoUsuario(String campoUsuario) {
-        this.campoUsuario = campoUsuario;
-    }
-
-    public String getCampoContra() {
-        return campoContra;
-    }
-
-    public void setCampoContra(String campoContra) {
-        this.campoContra = campoContra;
-    }
-
-    UsuarioJpaController usuarioController;
+    private UsuarioJpaController usuarioController;
 
     @PostConstruct
     public void init() {
@@ -59,6 +41,7 @@ public class IniciarSesion implements Serializable {
     }
 
     public void clickIniciarsesion() {
+        usuarioController = new UsuarioJpaController();
 
         Query query = usuarioController.getEntityManager().createNamedQuery("Usuario.findByUsuario");
         query.setParameter("usuario", campoUsuario);
@@ -87,6 +70,30 @@ public class IniciarSesion implements Serializable {
         }
         usuarioController = new UsuarioJpaController();
 
+    }
+
+    public String getCampoUsuario() {
+        return campoUsuario;
+    }
+
+    public void setCampoUsuario(String campoUsuario) {
+        this.campoUsuario = campoUsuario;
+    }
+
+    public String getCampoContra() {
+        return campoContra;
+    }
+
+    public void setCampoContra(String campoContra) {
+        this.campoContra = campoContra;
+    }
+
+    public Sesion getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(Sesion sesion) {
+        this.sesion = sesion;
     }
 
 }

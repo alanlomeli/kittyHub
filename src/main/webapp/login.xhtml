@@ -8,9 +8,6 @@
     <h:head>
         <title>Iniciar sesión</title>
         <style>
-            body .ui-panelgrid .ui-panelgrid-cell {
-                border: none!important;
-            }
 
             .indicadores{
                 font-size: 20px;
@@ -40,7 +37,9 @@
 
                 <p:row>
                     <h:outputText styleClass="indicadores" value="Usuario&nbsp;:" />
-                    <p:inputTextarea value="#{iniciarSesion.campoUsuario}" required="true" styleClass="input" rows="1" cols="33" label="Usuario"/>
+                    <p:inputTextarea value="#{iniciarSesion.campoUsuario}" required="true" styleClass="input" rows="1" cols="33" label="Usuario"> 
+                        <f:validateLength minimum="5" maximum="15" />
+                    </p:inputTextarea>
 
                     <br/>                        <br/>
                     <br/>

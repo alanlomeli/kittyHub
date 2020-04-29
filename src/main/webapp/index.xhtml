@@ -7,11 +7,88 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Home</title>
+        <style>
+            .publicaciones{
+                width:600px;
+                text-align: center;
+                margin-top:20px;
+            }
+            .wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .ui-panel .ui-panel-content {
+                padding:0px!important;
+                border:0px;
+            }
+            .subirFake{
+                display:flex;
+                width:600px;
+                margin-top:20px;
+                background-color:#191919;
+                height: 70px;
+                justify-content: center;
+                align-items: center;
+            }
+            .fakeInput{
+                width:500px;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+
+        <!--
+        <h:form enctype="multipart/form-data">        
+            <p:fileUpload value="#{subirFoto.foto}" mode="simple" skinSimple="true"/>
+            <br />
+            <p:commandButton value="Submit" ajax="false" action="#{subirFoto.upload()}"  />
+        </h:form>
+        
+        <p:graphicImage value="#{obtenerFoto.image}">
+            <f:param name="filename" value="IMG_2800-2125026218515488472.jpeg" />
+        </p:graphicImage>
+        
+        <div class="wrapper">
+            
+            <p:panel styleClass="publicaciones" id="publicacion" header="Lindo gato siames en adopcion" footer="by mafer" style="margin-bottom:20px">
+                <h:panelGrid columns="1">
+                    <p:graphicImage width="590px" value="#{obtenerFoto.image}">
+                        <f:param name="filename" value="test_foto.png" />
+                    </p:graphicImage>               
+
+                </h:panelGrid>
+            </p:panel>
+        </div>
+        -->
+        <div class="wrapper">
+            <a href="dar_adopcion.xhtml">
+                <div class="subirFake">
+
+                    <h:graphicImage   style="margin:10px;" width="50px" height="50px"  name="imagenes/gato_icono.png" />
+                    <h:form>
+                        <p:inputTextarea  styleClass="fakeInput" value="Publicar gato en adopcion" rows="2"  />
+                    </h:form>
+
+                </div>
+            </a>
+            <ui:repeat  var="o" value="#{publicaciones.obtenerPublicaciones()}" >
+
+                <p:panel styleClass="publicaciones"  header="#{o.titulo}" footer="por #{o.usuarioFk.nombre}" style="margin-bottom:20px">
+                    <h:panelGrid columns="1">
+                        <p:graphicImage width="590px" value="#{obtenerFoto.image}">
+                            <f:param name="filename" value="#{o.foto}" />
+                        </p:graphicImage>               
+
+                    </h:panelGrid>
+                </p:panel>
+
+            </ui:repeat>
+        </div>
     </h:body>
 </html>
 

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author marianabojorquez
+ * @author alanlomeli
  */
 @Entity
 @Table(name = "publicacion")
@@ -35,9 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Publicacion.findByPublicacionId", query = "SELECT p FROM Publicacion p WHERE p.publicacionId = :publicacionId"),
     @NamedQuery(name = "Publicacion.findByTitulo", query = "SELECT p FROM Publicacion p WHERE p.titulo = :titulo"),
     @NamedQuery(name = "Publicacion.findByDescripcion", query = "SELECT p FROM Publicacion p WHERE p.descripcion = :descripcion"),
+    @NamedQuery(name = "Publicacion.findByNombre", query = "SELECT p FROM Publicacion p WHERE p.nombre = :nombre"),
     @NamedQuery(name = "Publicacion.findBySexo", query = "SELECT p FROM Publicacion p WHERE p.sexo = :sexo"),
     @NamedQuery(name = "Publicacion.findByActivo", query = "SELECT p FROM Publicacion p WHERE p.activo = :activo"),
-    @NamedQuery(name = "Publicacion.findByEdad", query = "SELECT p FROM Publicacion p WHERE p.edad = :edad")})
+    @NamedQuery(name = "Publicacion.findByEstadoAdopcion", query = "SELECT p FROM Publicacion p WHERE p.estadoAdopcion = :estadoAdopcion"),
+    @NamedQuery(name = "Publicacion.findByEdad", query = "SELECT p FROM Publicacion p WHERE p.edad = :edad"),
+    @NamedQuery(name = "Publicacion.findByFoto", query = "SELECT p FROM Publicacion p WHERE p.foto = :foto")})
 public class Publicacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,12 +55,20 @@ public class Publicacion implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
+    @Size(max = 40)
+    @Column(name = "nombre")
+    private String nombre;
     @Column(name = "sexo")
     private Boolean sexo;
     @Column(name = "activo")
     private Boolean activo;
+    @Column(name = "estado_adopcion")
+    private Boolean estadoAdopcion;
     @Column(name = "edad")
     private Short edad;
+    @Size(max = 255)
+    @Column(name = "foto")
+    private String foto;
     @OneToMany(mappedBy = "publicacionFk")
     private List<Peticion> peticionList;
     @JoinColumn(name = "ubicacion_fk", referencedColumnName = "ubicacion_id")
@@ -101,6 +112,14 @@ public class Publicacion implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Boolean getSexo() {
         return sexo;
     }
@@ -117,12 +136,28 @@ public class Publicacion implements Serializable {
         this.activo = activo;
     }
 
+    public Boolean getEstadoAdopcion() {
+        return estadoAdopcion;
+    }
+
+    public void setEstadoAdopcion(Boolean estadoAdopcion) {
+        this.estadoAdopcion = estadoAdopcion;
+    }
+
     public Short getEdad() {
         return edad;
     }
 
     public void setEdad(Short edad) {
         this.edad = edad;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     @XmlTransient

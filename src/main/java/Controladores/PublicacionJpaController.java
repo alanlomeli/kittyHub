@@ -24,7 +24,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author marianabojorquez
+ * @author alanlomeli
  */
 public class PublicacionJpaController implements Serializable {
 

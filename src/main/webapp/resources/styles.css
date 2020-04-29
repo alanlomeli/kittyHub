@@ -16,13 +16,48 @@ button{
 body{
     margin:0;
     background-color: black;
-    
+
 }
 p{
     color:#A3A1A1!important;
-    
+
 }
 .OutputTextTag{
-        color:#A3A1A1!important;
+    color:#A3A1A1!important;
 
+}
+body .ui-panelgrid .ui-panelgrid-cell {
+    border: none!important;
+}
+.fa-rocket{
+    color:#007CCD!important;
+}
+.fa-share{
+    color:#007CCD!important;
+}
+.fa-question{
+    color:#007CCD!important;
+}
+.fa-list-ol{
+    color:#818384!important;
+}
+.fa-heart{
+    color:#FE311B!important;
+
+}
+.fa-pencil-square-o{
+    color:white;
+}
+.fa-reddit{
+    color:#FE3F00!important;
+}
+.fa-github-alt{
+    color:#505455;
+}
+.entrada {
+    float:right;
+}
+.etiqueta{
+    float:left;
+    font-size: 22px!important;
 }

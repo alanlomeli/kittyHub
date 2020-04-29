@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Dar en adopción</title>
+        <style>
+            .fotoSubida{
+                float:right;
+            }
+        </style>
+        <f:metadata>
+            <f:viewAction action="#{darAdopcion.init()}" />
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="toolbar.xhtml" />
+        </ui:insert>
+        <h:form>
+            <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:20px auto;width:500px"   >  
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <f:facet name="header">  
+                    <h:outputText value="Dar gato en adopción "  style="float:left"/>
+                </f:facet>
+
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="titulo" value="Titulo:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="titulo">  
+                        <f:validateLength minimum="5" maximum="100" />
+                    </p:inputText>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="descripcion" value="Descripción:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="descripcion"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre del gato:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="nombre"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="edad" value="Edad:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="edad"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="raza" value="Raza:" />
+                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="raza"  >
+                        <f:selectItem itemLabel="Elija raza" itemValue="" />
+                        <f:selectItem itemLabel="Masculino" itemValue="0" />
+                        <f:selectItem itemLabel="Femenino" itemValue="1" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="sexo" value="Sexo:" />
+                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="sexo"  >
+                        <f:selectItem itemLabel="Elija sexo" itemValue="" />
+                        <f:selectItem itemLabel="Macho" itemValue="0" />
+                        <f:selectItem itemLabel="Hembra" itemValue="1" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="estado" value="Estado:" />
+                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="estado"  >
+                        <f:selectItem itemLabel="Elija estado" itemValue="" />
+                        <f:selectItem itemLabel="Macho" itemValue="0" />
+                        <f:selectItem itemLabel="Hembra" itemValue="1" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="foto" value="Foto:" />
+                    <p:fileUpload styleClass="fotoSubida" value="#{subirFoto.foto}"  id="foto" mode="simple" skinSimple="true"/>
+                </p:row>
+
+                <p:row >
+                    <center>
+                        <p:button value="Cancelar" outcome="index.xhtml" />
+                        <p:commandButton value="Publicar" actionListener="#{registro.clickRegistro()}" validateClient="true"/>
+                        <br/>
+                    </center>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+

@@ -22,11 +22,11 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author marianabojorquez
+ * @author alanlomeli
  */
 public class UsuarioJpaController implements Serializable {
 
-    public UsuarioJpaController(){
+    public UsuarioJpaController() {
         this.emf = Persistence.createEntityManagerFactory("my_persistence_unit");
 
     }
@@ -238,5 +238,5 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

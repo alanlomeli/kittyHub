@@ -7,8 +7,6 @@ package Entidades;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,9 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author marianabojorquez
+ * @author alanlomeli
  */
-
 @Entity
 @Table(name = "usuario")
 @XmlRootElement
@@ -43,7 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByGenero", query = "SELECT u FROM Usuario u WHERE u.genero = :genero"),
     @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo"),
     @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo")})
-
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,8 +71,6 @@ public class Usuario implements Serializable {
     private List<Peticion> peticionList;
     @OneToMany(mappedBy = "usuarioFk")
     private List<Publicacion> publicacionList;
-    
-  
 
     public Usuario() {
     }
@@ -193,11 +186,9 @@ public class Usuario implements Serializable {
         return true;
     }
 
-
-
     @Override
     public String toString() {
         return "Entidades.Usuario[ usuarioId=" + usuarioId + " ]";
     }
-
+    
 }

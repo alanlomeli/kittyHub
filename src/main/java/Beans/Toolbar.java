@@ -5,19 +5,13 @@
  */
 package Beans;
 
-import Controladores.UsuarioJpaController;
-import Entidades.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.MenuModel;
 
 /**
  *
@@ -32,8 +26,8 @@ public class Toolbar implements Serializable {
     @Inject
     private Sesion sesion;
 
-    private MenuModel modelo;
     private String paginaActual;
+    private String iconoActual;
 
     @PostConstruct
     public void init() {
@@ -44,59 +38,32 @@ public class Toolbar implements Serializable {
         //Config para obtener el nombre que aparece en el menu
         if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/index.xhtml")) {
             paginaActual = "Home";
+            iconoActual = "fa fa-rocket";
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/mis_solicitudes.xhtml")) {
             paginaActual = "Mis solicitudes";
+            iconoActual = "fa fa-share";
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/peticiones.xhtml")) {
             paginaActual = "Peticiones";
+            iconoActual = "fa fa-question";
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/mis_publicaciones.xhtml")) {
             paginaActual = "Mis publicaciones";
+            iconoActual = "fa fa-list-ol";
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/mis_gatos.xhtml")) {
             paginaActual = "Mis gatos";
+            iconoActual = "fa fa-heart";
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/posts.xhtml")) {
+            paginaActual = "Posts";
+            iconoActual = "fa fa-pencil-square-o";
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/usuarios.xhtml")) {
+            paginaActual = "Usuarios";
+            iconoActual = "fa fa-reddit";
+        } else {
+            paginaActual = "Creando";
+            iconoActual = "fa fa-edit";
+
         }
-
-        modelo = new DefaultMenuModel();
-        DefaultMenuItem opcionHome = new DefaultMenuItem("Home");
-        opcionHome.setOutcome("index");
-        opcionHome.setIcon("pi pi-plus-circle");
-        modelo.getElements().add(opcionHome);
-
-        DefaultMenuItem opcionMisSolicitudes = new DefaultMenuItem("Mis solicitudes");
-        opcionMisSolicitudes.setOutcome("index");
-        opcionMisSolicitudes.setIcon("pi pi-plus-circle");
-        modelo.getElements().add(opcionMisSolicitudes);
-
-        DefaultMenuItem opcionPeticiones = new DefaultMenuItem("Mis peticiones");
-        opcionPeticiones.setOutcome("index");
-        opcionPeticiones.setIcon("pi pi-plus-circle");
-        modelo.getElements().add(opcionPeticiones);
-
-        DefaultMenuItem opcionMisPublicaciones = new DefaultMenuItem("Mis publicaciones");
-        opcionMisPublicaciones.setOutcome("index");
-        opcionMisPublicaciones.setIcon("pi pi-plus-circle");
-        modelo.getElements().add(opcionMisPublicaciones);
-
-        DefaultMenuItem opcionMisGatos = new DefaultMenuItem("Mis gatos");
-        opcionMisGatos.setOutcome("index");
-        opcionMisGatos.setIcon("pi pi-plus-circle");
-        modelo.getElements().add(opcionMisGatos);
-
-        if (sesion.getTipo() == 2 || sesion.getTipo() == 3) { //Si el usuario es un moderador o administrador
-            DefaultMenuItem opcionPosts = new DefaultMenuItem("Posts");
-            opcionPosts.setOutcome("index");
-            opcionPosts.setIcon("pi pi-plus-circle");
-            modelo.getElements().add(opcionPosts);
-            System.out.println("claro" + sesion.getTipo());
-        }
-        if (sesion.getTipo() == 3) { //Si el usuario es un moderador 
-            DefaultMenuItem opcionUsuarios = new DefaultMenuItem("Usuarios");
-            opcionUsuarios.setOutcome("index");
-            opcionUsuarios.setIcon("pi pi-plus-circle");
-            modelo.getElements().add(opcionUsuarios);
-        }
-    }
-
-    public void debug() {
-        System.out.println(sesion.isIniciado());
+        paginaActual = "⠀" + paginaActual;
+        paginaActual += "⠀▾";
     }
 
     public void cerrarSesion() {
@@ -120,20 +87,20 @@ public class Toolbar implements Serializable {
         this.sesion = sesion;
     }
 
-    public MenuModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(MenuModel modelo) {
-        this.modelo = modelo;
-    }
-
     public String getPaginaActual() {
         return paginaActual;
     }
 
     public void setPaginaActual(String paginaActual) {
         this.paginaActual = paginaActual;
+    }
+
+    public String getIconoActual() {
+        return iconoActual;
+    }
+
+    public void setIconoActual(String iconoActual) {
+        this.iconoActual = iconoActual;
     }
 
 }
