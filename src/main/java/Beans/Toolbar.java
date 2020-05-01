@@ -70,6 +70,7 @@ public class Toolbar implements Serializable {
         sesion.setIniciado(false);
         sesion.setUsuario("");
         sesion.setTipo(0);
+        sesion.setUsuario_id(0);
         setOpcionesSesion();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home

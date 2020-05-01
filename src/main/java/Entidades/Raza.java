@@ -53,6 +53,12 @@ public class Raza implements Serializable {
     public Raza() {
     }
 
+    public Raza(Integer razaId,String nombre,String foto) {
+        this.razaId=razaId;
+        this.nombre=nombre;
+        this.foto=foto;
+    }
+
     public Raza(Integer razaId) {
         this.razaId = razaId;
     }
@@ -114,5 +120,5 @@ public class Raza implements Serializable {
     public String toString() {
         return "Entidades.Raza[ razaId=" + razaId + " ]";
     }
-    
+
 }

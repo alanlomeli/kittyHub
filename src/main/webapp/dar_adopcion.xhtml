@@ -20,7 +20,7 @@
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
-        <h:form>
+        <h:form enctype="multipart/form-data"> 
             <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:20px auto;width:500px"   >  
                 <p:messages>
                     <p:autoUpdate />
@@ -30,52 +30,82 @@
                 </f:facet>
 
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="titulo" value="Titulo:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="titulo">  
+                    <p:outputLabel styleClass="etiqueta" for="titulo" value="Titulo:" /><p:inputText value="#{darAdopcion.campoTitulo}" required="true" styleClass="entrada" size="30" id="titulo">  
                         <f:validateLength minimum="5" maximum="100" />
                     </p:inputText>
                 </p:row>
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="descripcion" value="Descripción:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="descripcion"/> 
+                    <p:outputLabel styleClass="etiqueta" for="descripcion" value="Descripción:" /><p:inputText value="#{darAdopcion.campoDescripcion}" required="true" styleClass="entrada" size="30" id="descripcion"/> 
                 </p:row>
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre del gato:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="nombre"/> 
+                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre del gato:" /><p:inputText value="#{darAdopcion.campoNombre}" required="true" styleClass="entrada" size="30" id="nombre"/> 
                 </p:row>
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="edad" value="Edad:" /><p:inputText value="" required="true" styleClass="entrada" size="30" id="edad"/> 
-                </p:row>
+                    <p:outputLabel styleClass="etiqueta" for="edad" value="Edad:" />
+                    <p:selectOneMenu value="#{darAdopcion.campoEdad}" styleClass="entrada" required="true"  id="edad"  >
+                        <f:selectItem itemLabel="Elija edad" itemValue="" />
+                        <f:selectItem itemLabel="1 mes" itemValue="1" />
+                        <f:selectItem itemLabel="2 meses" itemValue="2" />      
+                        <f:selectItem itemLabel="3 meses" itemValue="3" />              
+                        <f:selectItem itemLabel="4 meses" itemValue="4" />              
+                        <f:selectItem itemLabel="5 meses" itemValue="5" />      
+                        <f:selectItem itemLabel="6 meses" itemValue="6" />              
+                        <f:selectItem itemLabel="7 meses" itemValue="7" />              
+                        <f:selectItem itemLabel="8 meses" itemValue="8" />              
+                        <f:selectItem itemLabel="9 meses" itemValue="9" />             
+                        <f:selectItem itemLabel="10 meses" itemValue="10" />              
+                        <f:selectItem itemLabel="11 meses" itemValue="11" />              
+                        <f:selectItem itemLabel="12 meses" itemValue="12" />              
+                        <f:selectItem itemLabel="+ 12 meses" itemValue="13" />    
+
+
+                    </p:selectOneMenu>                </p:row>
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="raza" value="Raza:" />
-                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="raza"  >
-                        <f:selectItem itemLabel="Elija raza" itemValue="" />
-                        <f:selectItem itemLabel="Masculino" itemValue="0" />
-                        <f:selectItem itemLabel="Femenino" itemValue="1" />              
+                    <p:selectOneMenu required="true" id="raza" value="#{darAdopcion.raza}"  converter="#{razaConverter}" styleClass="entrada" panelStyle="width:230px"
+                                     effect="fade" var="t" style="width:160px" filter="true"  filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="Elija raza" itemValue="#{null}" />
+                        <f:selectItems value="#{darAdopcion.obtenerRazas()}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza}" />
+
+                        <p:column style="width:10%">
+                            <h:graphicImage width="70px" height="80px" name="imagenes/razas/#{t.foto}" alt="#{t.nombre}" styleClass="ui-theme" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{t.nombre}" />
+                        </p:column>
+
+
                     </p:selectOneMenu>
                 </p:row>
+
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="sexo" value="Sexo:" />
-                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="sexo"  >
+                    <p:selectOneMenu value="#{darAdopcion.campoEdad}" styleClass="entrada" required="true"  id="sexo"  >
                         <f:selectItem itemLabel="Elija sexo" itemValue="" />
-                        <f:selectItem itemLabel="Macho" itemValue="0" />
-                        <f:selectItem itemLabel="Hembra" itemValue="1" />              
-                    </p:selectOneMenu>
-                </p:row>
+                        <f:selectItem itemLabel="Femenino" itemValue="1" />
+                        <f:selectItem itemLabel="Masculino" itemValue="2" />      
+
+                    </p:selectOneMenu>                </p:row>
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="estado" value="Estado:" />
-                    <p:selectOneMenu value="" styleClass="entrada" required="true"  id="estado"  >
-                        <f:selectItem itemLabel="Elija estado" itemValue="" />
-                        <f:selectItem itemLabel="Macho" itemValue="0" />
-                        <f:selectItem itemLabel="Hembra" itemValue="1" />              
+                    <p:selectOneMenu value="#{darAdopcion.campoUbicacion}" styleClass="entrada" required="true"  id="estado"  >
+                        <f:selectItems value="#{darAdopcion.obtenerEstados()}" var="estado" itemLabel="#{estado.estado}" itemValue="#{estado.ubicacionId}" />
+                        <f:selectItem itemLabel="Elija estado:" itemValue="" />
                     </p:selectOneMenu>
                 </p:row>
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="foto" value="Foto:" />
-                    <p:fileUpload styleClass="fotoSubida" value="#{subirFoto.foto}"  id="foto" mode="simple" skinSimple="true"/>
+                    <p:fileUpload styleClass="fotoSubida"  value="#{darAdopcion.campoFoto}"  id="foto" mode="simple" skinSimple="true"/>
                 </p:row>
 
                 <p:row >
                     <center>
                         <p:button value="Cancelar" outcome="index.xhtml" />
-                        <p:commandButton value="Publicar" actionListener="#{registro.clickRegistro()}" validateClient="true"/>
+                        <p:commandButton value="Publicar"  ajax="false" actionListener="#{darAdopcion.publicarAdopcion()}" />
                         <br/>
                     </center>
                 </p:row>

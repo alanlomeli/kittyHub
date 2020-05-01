@@ -54,6 +54,7 @@ public class IniciarSesion implements Serializable {
                 sesion.setIniciado(true); //Ponemos el usuario al bean para que se inicie sesión
                 sesion.setUsuario(campoUsuario);
                 sesion.setTipo(usuarioTemp.getTipo());
+                sesion.setUsuario_id(usuarioTemp.getUsuarioId());
                 System.out.println(sesion.getTipo());
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home

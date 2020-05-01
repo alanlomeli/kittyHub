@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -38,6 +39,10 @@ public class SubirFoto {
     private UploadedFile foto;
     private StreamedContent image;
 
+    @PostConstruct 
+        public void init(){
+            
+        }
     public void upload() {
         if (foto != null) {
             FacesMessage message = new FacesMessage("Successful", foto.getFileName() + " is uploaded.");

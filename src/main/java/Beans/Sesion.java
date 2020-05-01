@@ -21,14 +21,14 @@ public class Sesion implements Serializable {
     private String usuario;
     private boolean iniciado;
     private int tipo;
+    private int usuario_id;
 
     public Sesion() {
         iniciado = false;
         tipo = 0;
-        usuario="";
+        usuario = "";
+        usuario_id = 0;
     }
-
-
 
     public String getUsuario() {
         return usuario;
@@ -52,6 +52,14 @@ public class Sesion implements Serializable {
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public int getUsuario_id() {
+        return usuario_id;
+    }
+
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
     }
 
 }
