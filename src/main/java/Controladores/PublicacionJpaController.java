@@ -18,19 +18,18 @@ import Entidades.Peticion;
 import Entidades.Publicacion;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
+ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
+ 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class PublicacionJpaController implements Serializable {
 
     public PublicacionJpaController(){
         this.emf = Persistence.createEntityManagerFactory("my_persistence_unit");
-
     }
     private EntityManagerFactory emf = null;
 
@@ -244,6 +243,7 @@ public class PublicacionJpaController implements Serializable {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Publicacion.class));
             Query q = em.createQuery(cq);
+            q.setHint("javax.persistence.cache.storeMode", "REFRESH");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);

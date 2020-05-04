@@ -7,11 +7,65 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Mis peticiones</title>
+        <style>
+            .wrapper{
+                display:flex;
+                justify-content: center;
+            }
+            .tablaPublicacion{
+                margin-top: 20px;
+                width: 1000px;
+                text-align: center;
+            }
+            .iconColumn{
+                width:15px;
+                text-align: center;
+            }
+            .comentario{
+                width:300px;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <div class="wrapper">
+             
+            <p:dataTable styleClass="tablaPublicacion" var="peticion" value="#{tablaSolicitudes.peticionesRecibidas}">
+                <p:column headerText="Usuario interesado">
+                    <h:outputText value="#{peticion.usuarioFk.usuario}" />
+                </p:column>
+                <p:column headerText="Publicación">
+                    <h:outputText value="#{peticion.publicacionFk.titulo}" />
+                </p:column>
+                <p:column headerText="Comentario">
+                    <h:outputText value="#{peticion.comentarioPeticion}" />
+                </p:column>
+                <p:column headerText="Responder">
+                    <h:form>
+                        <p:commandButton  value="RESPONDER" action="#{tablaSolicitudes.seleccionarPeticion(peticion.peticionId)}" onclick="PF('dlg1').show();" />
+                    </h:form>                </p:column>
+
+
+            </p:dataTable>
+            <p:dialog header="Aceptar o rechazar peticion" widgetVar="dlg1" minHeight="40">
+                <h:form id="myForm"> 
+                    <p:messages>
+                        <p:autoUpdate />
+                    </p:messages>
+                    <h:outputText value="Escribe un comentario" /><br/>
+                    <p:inputTextarea  label="Respuesta" required="true" value="#{tablaSolicitudes.respuesta}" rows="5" cols="60" counter="display"  maxlength="255" counterTemplate="{0} caracteres restantes." />
+                    <br/>
+                    <h:outputText id="display" />
+                    <center>
+                        <p:commandButton  value="Cancelar" type="button" onclick="PF('dlg1').hide();" />
+                        <p:commandButton value="Rechazar" actionListener="#{tablaSolicitudes.responderPeticion(false)}"  validateClient="true"/>
+                        <p:commandButton value="Aceptar" actionListener="#{tablaSolicitudes.responderPeticion(true)}"  validateClient="true"/>
+                    </center>
+                </h:form>
+            </p:dialog>
+        </div>
     </h:body>
 </html>
 

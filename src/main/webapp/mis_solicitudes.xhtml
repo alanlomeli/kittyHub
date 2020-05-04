@@ -7,11 +7,52 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Mis solicitudes</title>
+        <style>
+            .wrapper{
+                display:flex;
+                justify-content: center;
+            }
+            .tablaPublicacion{
+                margin-top: 20px;
+                width: 1000px;
+            }
+            .iconColumn{
+                width:15px;
+                text-align: center;
+            }
+            .comentario{
+                width:300px;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <div class="wrapper">
+            <p:dataTable styleClass="tablaPublicacion" var="solicitud" value="#{tablaSolicitudes.misSolicitudes}">
+                <p:column headerText="Usuario dueño">
+                    <h:outputText value="#{solicitud.publicacionFk.usuarioFk.usuario}" />
+                </p:column>
+                <p:column headerText="Publicación">
+                    <h:outputText value="#{solicitud.publicacionFk.titulo}" />
+                </p:column>
+                <p:column headerText="Comentario" styleClass="comentario">
+                    <h:outputText value="#{solicitud.comentarioPeticion}" />
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText rendered="#{solicitud.estado eq 0}" value="EN PROCESO" />
+                    <h:outputText rendered="#{solicitud.estado eq 1}" value="ACEPTADA" />
+                    <h:outputText rendered="#{solicitud.estado eq 2}" value="RECHAZADA" />
+
+                </p:column>
+                <p:column headerText="Comentario dueño" styleClass="comentario">
+                    <h:outputText value="#{solicitud.comentarioRespuesta}" />
+
+                </p:column>
+
+            </p:dataTable>
+        </div>
     </h:body>
 </html>
 

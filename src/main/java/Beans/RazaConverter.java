@@ -19,7 +19,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
 @ApplicationScoped //change scope from default to this

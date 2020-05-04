@@ -23,6 +23,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -33,10 +34,10 @@ import org.primefaces.shaded.commons.io.FilenameUtils;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class DarAdopcion implements Serializable {
 
     @Inject
@@ -46,12 +47,17 @@ public class DarAdopcion implements Serializable {
     private String campoDescripcion;
     private String campoNombre;
     private int campoEdad;
-    private int campoRaza;
+
     private int campoUbicacion;
     private boolean campoSexo;
     private UploadedFile campoFoto;
     private StreamedContent image;
+    private boolean activo;
 
+    //campos requeridos cuando se edita
+    private boolean edicion;
+    private int publicacionId;
+    private int autor;
     private Raza raza;
     private UbicacionJpaController estadoController;
     private RazaJpaController razaController;
@@ -60,6 +66,7 @@ public class DarAdopcion implements Serializable {
 
     @PostConstruct
     public void init() {
+        edicion = false;
         if (!sesion.isIniciado()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");  //Redireccionamos al home
@@ -70,44 +77,47 @@ public class DarAdopcion implements Serializable {
     }
 
     public void publicarAdopcion() {
-        if (campoFoto.getSize() > 0) {
+        if (campoFoto != null) {
+            if (campoFoto.getSize() > 0) {
 
-            publicacionController = new PublicacionJpaController();
-            Publicacion publicacion= new Publicacion();
-            publicacion.setUbicacionFk(estadoController.findUbicacion(campoUbicacion));
-            publicacion.setUsuarioFk(new Usuario(sesion.getUsuario_id()));
-            publicacion.setRazaFk(raza);
-            publicacion.setTitulo(campoTitulo);
-            publicacion.setDescripcion(campoDescripcion);
-            publicacion.setNombre(campoNombre);
-            publicacion.setSexo(campoSexo);
-            publicacion.setActivo(true);
-            publicacion.setEstadoAdopcion(false);
-            publicacion.setEdad((short)campoEdad);
-            
-            
-            FacesMessage message = new FacesMessage("Successful", campoFoto.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            Path folder = Paths.get("/Volumes/1TB Homework/kittyhub");
-            String filename = FilenameUtils.getBaseName(campoFoto.getFileName());
-            String extension = FilenameUtils.getExtension(campoFoto.getFileName());
+                publicacionController = new PublicacionJpaController();
+                Publicacion publicacion = new Publicacion();
+                publicacion.setUbicacionFk(estadoController.findUbicacion(campoUbicacion));
+                publicacion.setUsuarioFk(new Usuario(sesion.getUsuario_id()));
+                publicacion.setRazaFk(raza);
+                publicacion.setTitulo(campoTitulo);
+                publicacion.setDescripcion(campoDescripcion);
+                publicacion.setNombre(campoNombre);
+                publicacion.setSexo(campoSexo);
+                publicacion.setActivo(true);
+                publicacion.setEstadoAdopcion(false);
+                publicacion.setEdad((short) campoEdad);
 
-            try {
-                Path file = Files.createTempFile(folder, filename + "-", "." + extension);
-                InputStream input = campoFoto.getInputstream();
-                Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-                publicacion.setFoto(file.getFileName().toString());
-                publicacionController.create(publicacion);
-                System.out.println("Uploaded file successfully saved in " + file);
+                FacesMessage message = new FacesMessage("Successful", campoFoto.getFileName() + " is uploaded.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                Path folder = Paths.get("/Volumes/1TB Homework/kittyhub");
+                String filename = FilenameUtils.getBaseName(campoFoto.getFileName());
+                String extension = FilenameUtils.getExtension(campoFoto.getFileName());
 
-            } catch (Exception ex) {
-                System.out.println(ex);
+                try {
+                    Path file = Files.createTempFile(folder, filename + "-", "." + extension);
+                    InputStream input = campoFoto.getInputstream();
+                    Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+                    publicacion.setFoto(file.getFileName().toString());
+                    publicacionController.create(publicacion);
+                    System.out.println("Uploaded file successfully saved in " + file);
+                    campoFoto = null;
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes adjuntar una foto", null));
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes adjuntar una foto", null));
         }
-
     }
 
     public StreamedContent getImage() {
@@ -146,14 +156,6 @@ public class DarAdopcion implements Serializable {
         this.campoEdad = campoEdad;
     }
 
-    public int getCampoRaza() {
-        return campoRaza;
-    }
-
-    public void setCampoRaza(int campoRaza) {
-        this.campoRaza = campoRaza;
-    }
-
     public int getCampoUbicacion() {
         return campoUbicacion;
     }
@@ -181,7 +183,7 @@ public class DarAdopcion implements Serializable {
     public List<Raza> obtenerRazas() {
         raza = new Raza();
         razaController = new RazaJpaController();
-        return  razaController.findRazaEntities();
+        return razaController.findRazaEntities();
     }
 
     public Raza getRaza() {
@@ -204,6 +206,38 @@ public class DarAdopcion implements Serializable {
 
     public void setRazas(List<Raza> razas) {
         this.razas = razas;
+    }
+
+    public boolean isEdicion() {
+        return edicion;
+    }
+
+    public void setEdicion(boolean edicion) {
+        this.edicion = edicion;
+    }
+
+    public int getPublicacionId() {
+        return publicacionId;
+    }
+
+    public void setPublicacionId(int publicacionId) {
+        this.publicacionId = publicacionId;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public int getAutor() {
+        return autor;
+    }
+
+    public void setAutor(int autor) {
+        this.autor = autor;
     }
 
 }

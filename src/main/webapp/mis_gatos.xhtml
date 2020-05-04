@@ -7,11 +7,53 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Mis gatos</title>
+        <style>
+            .wrapper{
+                display:flex;
+                justify-content: center;
+            }
+            .tablaPublicacion{
+                margin-top: 20px;
+                width: 1000px;
+                text-align: center;
+            }
+            .iconColumn{
+                width:15px;
+                text-align: center;
+            }
+            .comentario{
+                width:300px;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <div class="wrapper">
+
+            <p:dataTable styleClass="tablaPublicacion" var="gato" value="#{tablaSolicitudes.gatosAdoptados}">
+                <p:column headerText="Foto">
+                    <p:graphicImage width="100px" value="#{obtenerFoto.image}">
+                        <f:param name="filename" value="#{gato.publicacionFk.foto}" />
+                    </p:graphicImage>                    </p:column>
+                <p:column headerText="Usuario">
+                    <h:outputText value="#{gato.usuarioFk.usuario}" />
+                </p:column>
+                <p:column headerText="Nombre del gato">
+                    <h:outputText value="#{gato.publicacionFk.nombre}" />
+                </p:column>
+                <p:column headerText="Sexo">
+                    <h:outputText rendered="#{gato.publicacionFk.sexo}" value="Hembra" />
+                    <h:outputText rendered="#{!gato.publicacionFk.sexo}" value="Macho" />
+                </p:column>
+                <p:column headerText="Edad de adopción">
+                    <h:outputText value="#{gato.publicacionFk.edad} meses" />
+                </p:column>
+
+            </p:dataTable>
+
+        </div>
     </h:body>
 </html>
 

@@ -7,11 +7,67 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Ver posts</title>
+        <style>
+            .wrapper{
+                display:flex;
+                justify-content: center;
+            }
+            .tablaPublicacion{
+                margin-top: 20px;
+                width: 800px;
+            }
+            .iconColumn{
+                width:15px;
+                text-align: center;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <h:form>
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+        </h:form>
+        <div class="wrapper">
+            <p:dataTable styleClass="tablaPublicacion" var="publicacion" value="#{tablaPublicaciones.publicaciones}">
+                <p:column headerText="Usuario">
+                    <h:outputText value="#{publicacion.usuarioFk.usuario}" />
+                </p:column>
+                <p:column headerText="Título">
+                    <h:outputText value="#{publicacion.titulo}" />
+                </p:column>
+
+                <p:column headerText="Estado adopción">
+                    <h:outputText rendered="#{publicacion.estadoAdopcion}" value="Adoptado" />
+                    <h:outputText rendered="#{!publicacion.estadoAdopcion}" value="En adopción" />
+
+                </p:column>
+
+                <p:column headerText="Activo">
+                    <h:outputText rendered="#{publicacion.activo}" value="Activo" />
+                    <h:outputText rendered="#{!publicacion.activo}" value="Inactivo" />
+
+                </p:column>
+                <p:column styleClass="iconColumn" headerText="">
+                    <h:form>
+                        <p:commandLink style="color:white;" actionListener="#{tablaPublicaciones.editarPublicacion(publicacion.publicacionId)}"><i class="fa fa-fw fa-pencil"></i></p:commandLink>
+                    </h:form>
+                </p:column>
+
+                <p:column styleClass="iconColumn" headerText="" >
+                    <a style="color:white" href="ver_post.xhtml?id=#{publicacion.publicacionId}"><i class="fa fa-fw fa-eye"></i>  </a>
+                </p:column>
+                <p:column styleClass="iconColumn" headerText="">
+                    <h:form rendered="#{!publicacion.estadoAdopcion}">
+                        <p:commandLink rendered="#{publicacion.activo}" style="color:white;" action="#{tablaPublicaciones.activarDesactivarPublicacion(publicacion.publicacionId,false)}"><i class="fa fa-fw fa-times"></i>  
+                        </p:commandLink>
+                        <p:commandLink rendered="#{!publicacion.activo}" style="color:white;" action="#{tablaPublicaciones.activarDesactivarPublicacion(publicacion.publicacionId,true)}"><i class="fa fa-fw fa-plus"></i>  
+                        </p:commandLink>
+                    </h:form>         
+                </p:column>
+            </p:dataTable>
+        </div>
     </h:body>
 </html>
 

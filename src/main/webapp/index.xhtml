@@ -76,17 +76,18 @@
 
                 </div>
             </a>
-            <ui:repeat  var="o" value="#{publicaciones.obtenerPublicaciones()}" >
+            <ui:repeat  var="o" value="#{publicaciones.publicaciones}" >
 
-                <p:panel styleClass="publicaciones"  header="#{o.titulo}" footer="por #{o.usuarioFk.nombre}" style="margin-bottom:20px">
-                    <h:panelGrid columns="1">
-                        <p:graphicImage width="590px" value="#{obtenerFoto.image}">
-                            <f:param name="filename" value="#{o.foto}" />
-                        </p:graphicImage>               
+                <a href="ver_post.xhtml?id=#{o.publicacionId}"> 
+                    <p:panel styleClass="publicaciones"  header="#{o.titulo}" footer="por #{o.usuarioFk.nombre}" style="margin-bottom:20px">
+                        <h:panelGrid columns="1">
+                            <p:graphicImage width="590px" value="#{obtenerFoto.image}">
+                                <f:param name="filename" value="#{o.foto}" />
+                            </p:graphicImage>               
 
-                    </h:panelGrid>
-                </p:panel>
-
+                        </h:panelGrid>
+                    </p:panel>
+                </a>
             </ui:repeat>
         </div>
     </h:body>

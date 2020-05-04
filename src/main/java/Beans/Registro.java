@@ -20,7 +20,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
 @RequestScoped

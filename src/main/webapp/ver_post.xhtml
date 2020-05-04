@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Home</title>
+        <style>
+            .wrapper{
+                display:flex;
+                align-content: center;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+        <f:metadata>
+            <f:viewAction action="#{verPost.init()}" />
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="toolbar.xhtml" />
+        </ui:insert>
+        <div class="wrapper">
+            <p:panel   header="#{verPost.datosPublicacion.titulo}"  style="margin-top:20px;max-width: 630px;">
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <h:panelGrid columns="1">
+                    <p:graphicImage width="590px" value="#{obtenerFoto.image}">
+                        <f:param name="filename" value="#{verPost.datosPublicacion.foto}" />
+                    </p:graphicImage>               
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <row>
+                        <div style="width: 590px;background-color: red">
+                            <span style="float:right">por: #{verPost.datosPublicacion.usuarioFk.usuario}</span>
+                        </div>
+                    </row>
+                    <row>
+                        Nombre del gato: #{verPost.datosPublicacion.nombre}
+                    </row>  
+                    <br/>
+                    <row>
+                        Edad del gato: #{verPost.datosPublicacion.edad} meses
+                    </row>
+                    <br/>
+                    <row>
+                        Ubicación: #{verPost.datosPublicacion.ubicacionFk.estado}
+                    </row>
+                    <br/>
+                    <row>
+                        <h:graphicImage width="100px" name="imagenes/razas/#{verPost.datosPublicacion.razaFk.foto}" />
+                        Raza: #{verPost.datosPublicacion.razaFk.nombre}
+                    </row>
+                    <br/>
+                    <row>
+                        Sexo: #{verPost.sexo}
+                    </row>
+                    <br/>
+                    <row>
+                        Descripcion: #{verPost.datosPublicacion.descripcion}
+                    </row>
+                    <row>
+                        <h:panelGrid columns="1" cellpadding="1">
+                            <h:form>
+                                <p:commandButton  rendered="#{verPost.datosPublicacion.activo and !verPost.datosPublicacion.estadoAdopcion}" value="Adoptar" onclick="PF('dlg1').show();" />
+                            </h:form>
+                        </h:panelGrid>
+
+                        <p:dialog header="Adoptar a #{verPost.datosPublicacion.nombre}" widgetVar="dlg1" minHeight="40">
+                            <h:form id="myForm"> 
+                                <p:messages>
+                                    <p:autoUpdate />
+                                </p:messages>
+                                <h1>!Felicidades por adoptar!</h1>
+                                <h:outputText value="Escribe a continuación porqué debes ser elegido para adoptar a #{verPost.datosPublicacion.nombre}." /><br/>
+                                <p:inputTextarea  label="Comentario" required="true" value="#{verPost.comentario}" rows="5" cols="60" counter="display"  maxlength="255" counterTemplate="{0} caracteres restantes." />
+                                <br/>
+                                <h:outputText id="display" />
+                                <center>
+                                    <p:commandButton  value="Cancelar" type="button" onclick="PF('dlg1').hide();" />
+                                    <p:commandButton value="Enviar petición" actionListener="#{verPost.crearPeticion()}"  validateClient="true"/>
+                                </center>
+                            </h:form>
+                        </p:dialog>
+
+                    </row>
+
+                </h:panelGrid>
+            </p:panel>
+        </div>
+
+    </h:body>
+</html>
+

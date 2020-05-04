@@ -44,8 +44,8 @@
                     <p:outputLabel styleClass="etiqueta" for="genero" value="Género:" />
                     <p:selectOneMenu value="#{registro.genero}" styleClass="entrada" required="true"  id="genero"  >
                         <f:selectItem itemLabel="Elija el genero" itemValue="" />
-                        <f:selectItem itemLabel="Masculino" itemValue="0" />
-                        <f:selectItem itemLabel="Femenino" itemValue="1" />              
+                        <f:selectItem itemLabel="Masculino" itemValue="#{false}" />
+                        <f:selectItem itemLabel="Femenino" itemValue="#{true}" />              
                     </p:selectOneMenu>
                 </p:row>
                 <p:row>

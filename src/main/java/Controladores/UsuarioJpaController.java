@@ -22,7 +22,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class UsuarioJpaController implements Serializable {
 
@@ -207,6 +207,7 @@ public class UsuarioJpaController implements Serializable {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Usuario.class));
             Query q = em.createQuery(cq);
+            q.setHint("javax.persistence.cache.storeMode", "REFRESH");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);

@@ -17,7 +17,7 @@ import org.primefaces.model.StreamedContent;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
 @ApplicationScoped

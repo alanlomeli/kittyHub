@@ -21,13 +21,12 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class PeticionJpaController implements Serializable {
 
-    public PeticionJpaController(){
+    public PeticionJpaController() {
         this.emf = Persistence.createEntityManagerFactory("my_persistence_unit");
-
     }
     private EntityManagerFactory emf = null;
 
@@ -164,6 +163,7 @@ public class PeticionJpaController implements Serializable {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Peticion.class));
             Query q = em.createQuery(cq);
+            q.setHint("javax.persistence.cache.storeMode", "REFRESH");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -195,5 +195,5 @@ public class PeticionJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -12,9 +12,10 @@
                 float:right;
             }
         </style>
-        <f:metadata>
-            <f:viewAction action="#{darAdopcion.init()}" />
-        </f:metadata>
+        <!--   <f:metadata>
+               <f:viewAction action="#{darAdopcion.init()}" />
+           </f:metadata>
+        -->
     </h:head>
     <h:body>
         <ui:insert name="header" >
@@ -30,23 +31,23 @@
                 </f:facet>
 
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="titulo" value="Titulo:" /><p:inputText value="#{darAdopcion.campoTitulo}" required="true" styleClass="entrada" size="30" id="titulo">  
+                    <p:outputLabel styleClass="etiqueta" for="titulo" value="Titulo:" /><p:inputText value="#{tablaPublicaciones.edicionPublicacion.titulo}" required="true" styleClass="entrada" size="30" id="titulo">  
                         <f:validateLength minimum="5" maximum="100" />
                     </p:inputText>
                 </p:row>
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="descripcion" value="Descripción:" /><p:inputText value="#{darAdopcion.campoDescripcion}" required="true" styleClass="entrada" size="30" id="descripcion"> 
+                    <p:outputLabel styleClass="etiqueta" for="descripcion" value="Descripción:" /><p:inputText value="#{tablaPublicaciones.edicionPublicacion.descripcion}" required="true" styleClass="entrada" size="30" id="descripcion"> 
                         <f:validateLength minimum="5" maximum="255" />
                     </p:inputText>
                 </p:row>
                 <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre del gato:" /><p:inputText value="#{darAdopcion.campoNombre}" required="true" styleClass="entrada" size="30" id="nombre"> 
+                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre del gato:" /><p:inputText value="#{tablaPublicaciones.edicionPublicacion.nombre}" required="true" styleClass="entrada" size="30" id="nombre"> 
                         <f:validateLength minimum="0" maximum="40" />
                     </p:inputText>
                 </p:row>
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="edad" value="Edad (meses):" />
-                    <p:inputText value="#{darAdopcion.campoEdad}" required="true" styleClass="entrada" size="30" id="edad"> 
+                    <p:inputText value="#{tablaPublicaciones.edicionPublicacion.edad}" required="true" styleClass="entrada" size="30" id="edad"> 
                         <f:validateDoubleRange minimum="0" maximum="300" />
 
                     </p:inputText>
@@ -54,7 +55,7 @@
 
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="raza" value="Raza:" />
-                    <p:selectOneMenu required="true" id="raza" value="#{darAdopcion.raza}"  converter="#{razaConverter}" styleClass="entrada" panelStyle="width:230px"
+                    <p:selectOneMenu required="true" id="raza" value="#{tablaPublicaciones.edicionPublicacion.razaFk}"  converter="#{razaConverter}" styleClass="entrada" panelStyle="width:230px"
                                      effect="fade" var="t" style="width:160px" filter="true"  filterMatchMode="startsWith">
                         <f:selectItems value="#{darAdopcion.obtenerRazas()}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza}" />
 
@@ -75,28 +76,35 @@
 
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="sexo" value="Sexo:" />
-                    <p:selectOneMenu value="#{darAdopcion.campoSexo}" styleClass="entrada" required="true"  id="sexo"  >
+                    <p:selectOneMenu value="#{tablaPublicaciones.edicionPublicacion.sexo}" styleClass="entrada" required="true"  id="sexo"  >
                         <f:selectItem itemLabel="Elija sexo" itemValue="" />
                         <f:selectItem itemLabel="Hembra" itemValue="#{true}" />
                         <f:selectItem itemLabel="Macho" itemValue="#{false}" />      
 
-                    </p:selectOneMenu>                </p:row>
+                    </p:selectOneMenu>         
+                </p:row>
+
                 <p:row>
                     <p:outputLabel styleClass="etiqueta" for="estado" value="Estado:" />
-                    <p:selectOneMenu value="#{darAdopcion.campoUbicacion}" styleClass="entrada" required="true"  id="estado"  >
+                    <p:selectOneMenu value="#{tablaPublicaciones.edicionPublicacion.ubicacionFk.ubicacionId}" styleClass="entrada" required="true"  id="estado"  >
                         <f:selectItem itemLabel="Elija estado:" itemValue="" />
                         <f:selectItems value="#{darAdopcion.obtenerEstados()}" var="estado" itemLabel="#{estado.estado}" itemValue="#{estado.ubicacionId}" />
                     </p:selectOneMenu>
                 </p:row>
-                <p:row>
-                    <p:outputLabel styleClass="etiqueta" for="foto" value="Foto:" />
-                    <p:fileUpload styleClass="fotoSubida" update="@form" value="#{darAdopcion.campoFoto}" required="true" id="foto" mode="simple" skinSimple="true"/>
-                </p:row>
+
+                <p:row rendered="#{!tablaPublicaciones.edicionPublicacion.estadoAdopcion}">
+                    <p:outputLabel styleClass="etiqueta" for="activo" value="Activo:" />
+                    <p:selectOneMenu value="#{tablaPublicaciones.edicionPublicacion.activo}" styleClass="entrada" required="true"  id="activo"  >
+                        <f:selectItem itemLabel="Activo" itemValue="#{true}" />
+                        <f:selectItem itemLabel="Inactivo" itemValue="#{false}" />      
+
+                    </p:selectOneMenu></p:row>
+
 
                 <p:row >
                     <center>
                         <p:button value="Cancelar" outcome="index.xhtml" />
-                        <p:commandButton value="Publicar" update="@parent" ajax="false" actionListener="#{darAdopcion.publicarAdopcion()}" />
+                        <p:commandButton value="Publicar" update="@parent" ajax="false" actionListener="#{tablaPublicaciones.editar()}" />
                         <br/>
                     </center>                    
                 </p:row>

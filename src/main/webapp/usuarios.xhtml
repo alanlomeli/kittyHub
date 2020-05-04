@@ -7,11 +7,78 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Ver usuarios</title>
+        <style>
+            .wrapper{
+                display:flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+
+            }
+            .tablaPublicacion{
+                width: 800px;
+                margin-top: 20px;
+
+            }
+            .iconColumn{
+                width:15px;
+                text-align: center;
+            }
+        </style>
     </h:head>
     <h:body>
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
+        <div class="wrapper">
+            <h:form>
+                <p:commandButton actionListener="#{tablaUsuarios.irRegistro()}" icon="fa fa-fw fa-plus"> </p:commandButton>
+            </h:form>
+            <p:dataTable styleClass="tablaPublicacion" var="usuario" value="#{tablaUsuarios.listaUsuarios}">
+                <p:column headerText="Usuario">
+                    <h:outputText value="#{usuario.usuario}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{usuario.nombre}" />
+                </p:column>
+                <p:column headerText="Apellido">
+                    <h:outputText value="#{usuario.apellido}" />
+                </p:column>
+                <p:column headerText="Género">
+                    <h:outputText rendered="#{!usuario.genero}" value="Masculino" />
+                    <h:outputText rendered="#{usuario.genero}" value="Femenino" />
+
+                </p:column>
+                <p:column headerText="Tipo">
+                    <h:outputText rendered="#{usuario.tipo eq 1}" value="Estándar" />
+                    <h:outputText rendered="#{usuario.tipo eq 2}" value="Moderador" />
+                    <h:outputText rendered="#{usuario.tipo eq 3}" value="Administrador" />
+
+                </p:column>
+                <p:column headerText="Activo">
+                    <h:outputText rendered="#{usuario.activo}" value="ACTIVO" />
+                    <h:outputText rendered="#{!usuario.activo}" value="INACTIVO" />
+                </p:column>
+
+
+                <p:column styleClass="iconColumn" headerText="">
+                    <h:form>
+                        <p:commandLink style="color:white;" actionListener="#{tablaUsuarios.irEditar(usuario.usuarioId)}"><i class="fa fa-fw fa-pencil"></i></p:commandLink>
+                    </h:form>
+                </p:column>
+
+              
+                <p:column  styleClass="iconColumn" headerText="">
+                    <h:form >
+                        <p:commandLink rendered="#{usuario.activo}" style="color:white;" ><i class="fa fa-fw fa-times"></i>  
+                        </p:commandLink>
+                        <p:commandLink rendered="#{!usuario.activo}" style="color:white;"><i class="fa fa-fw fa-plus"></i>  
+                        </p:commandLink>
+                    </h:form>         
+                </p:column>
+            </p:dataTable>
+        </div>
     </h:body>
 </html>
 

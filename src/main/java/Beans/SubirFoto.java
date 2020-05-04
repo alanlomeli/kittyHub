@@ -30,7 +30,7 @@ import org.primefaces.shaded.commons.io.IOUtils;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 @Named
 @RequestScoped

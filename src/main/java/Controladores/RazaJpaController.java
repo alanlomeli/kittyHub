@@ -21,7 +21,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author alanlomeli
+ * @author marianabojorquez
  */
 public class RazaJpaController implements Serializable {
 

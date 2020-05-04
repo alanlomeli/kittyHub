@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Usuarios</title>
+        <style>
+
+
+        </style>
+    </h:head>
+    <h:body>
+        <ui:insert name="header" >
+            <ui:include src="toolbar.xhtml" />
+        </ui:insert>
+        <h:form>
+            <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:60px auto;width:500px"   >  
+                <p:messages>
+                    <p:autoUpdate />
+                </p:messages>
+                <f:facet name="header">  
+                    <h:outputText value="Edicion/Registro usuario "  style="float:left"/>
+                </f:facet>
+
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="usuario" value="Usuario:" /><p:inputText value="#{administracionUsuario.usuario.usuario}" required="true" styleClass="entrada" size="40" id="usuario">  
+                        <f:validateLength minimum="5" maximum="15" />
+                    </p:inputText>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="nombre" value="Nombre:" /><p:inputText value="#{administracionUsuario.usuario.nombre}" required="true" styleClass="entrada" size="40" id="nombre"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="apellido" value="Apellido:" /><p:inputText value="#{administracionUsuario.usuario.apellido}" required="true" styleClass="entrada" size="40" id="apellido"/> 
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="contra" value="Clave:" />  <p:inputText value="#{administracionUsuario.contra}" required="true" type="password" styleClass="entrada" size="40" id="contra"> 
+                        <f:validateLength minimum="7" maximum="15" />
+                    </p:inputText>
+                </p:row>
+
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="genero" value="Género:" />
+                    <p:selectOneMenu value="#{administracionUsuario.usuario.genero}" styleClass="entrada" required="true"  id="genero"  >
+                        <f:selectItem itemLabel="Elija genero" itemValue="" />
+                        <f:selectItem itemLabel="Masculino" itemValue="#{false}" />
+                        <f:selectItem itemLabel="Femenino" itemValue="#{true}" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="tipo" value="Tipo:" />
+                    <p:selectOneMenu value="#{administracionUsuario.usuario.tipo}" styleClass="entrada" required="true"  id="tipo"  >
+                        <f:selectItem itemLabel="Elija tipo" itemValue="" />
+                        <f:selectItem itemLabel="Estándar" itemValue="#{1}" />
+                        <f:selectItem itemLabel="Moderador" itemValue="#{2}" />      
+                        <f:selectItem itemLabel="Administrador" itemValue="#{3}" />              
+                    </p:selectOneMenu>
+                </p:row>
+                <p:row>
+                    <p:outputLabel styleClass="etiqueta" for="activo" value="Activo:" />
+                    <p:selectOneMenu value="#{administracionUsuario.usuario.activo}" styleClass="entrada" required="true"  id="activo"  >
+                        <f:selectItem itemLabel="Activo" itemValue="#{true}" />              
+                        <f:selectItem itemLabel="Inactivo" itemValue="#{false}" />
+                    </p:selectOneMenu>
+                </p:row>
+
+                <p:row >
+                    <center>
+                        <p:commandButton  value="Crear/Editar" actionListener="#{administracionUsuario.registrar()}" validateClient="true"/>
+
+                        <br/>
+                    </center>
+                </p:row>
+
+            </p:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+
