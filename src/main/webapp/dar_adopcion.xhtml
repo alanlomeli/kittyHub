@@ -20,7 +20,7 @@
         <ui:insert name="header" >
             <ui:include src="toolbar.xhtml" />
         </ui:insert>
-        <h:form enctype="multipart/form-data"> 
+        <h:form id="crear" enctype="multipart/form-data"> 
             <p:panelGrid id="grid" columns="1" styleClass="panelGrid" style="margin:20px auto;width:500px"   >  
                 <p:messages>
                     <p:autoUpdate />
@@ -96,7 +96,7 @@
                 <p:row >
                     <center>
                         <p:button value="Cancelar" outcome="index.xhtml" />
-                        <p:commandButton value="Publicar" update="@parent" ajax="false" actionListener="#{darAdopcion.publicarAdopcion()}" />
+                        <p:commandButton value="Publicar" update="crear" ajax="false" actionListener="#{darAdopcion.publicarAdopcion()}" />
                         <br/>
                     </center>                    
                 </p:row>

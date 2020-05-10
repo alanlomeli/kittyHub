@@ -23,6 +23,7 @@ import org.primefaces.model.StreamedContent;
 @ApplicationScoped
 public class ObtenerFoto {
 
+    
     public StreamedContent getImage() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -30,9 +31,10 @@ public class ObtenerFoto {
             // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
             return new DefaultStreamedContent();
         } else {
+            SubirFoto subirFoto = new SubirFoto();
             // So, browser is ressquest   ing the image. Return a real StreamedContent with the image bytes.
             String filename = context.getExternalContext().getRequestParameterMap().get("filename");
-            return new DefaultStreamedContent(new FileInputStream(new File("/Volumes/1TB Homework/kittyhub", filename)));
+            return new DefaultStreamedContent(new FileInputStream(new File(subirFoto.getRuta(), filename)));
         }
     }
     //

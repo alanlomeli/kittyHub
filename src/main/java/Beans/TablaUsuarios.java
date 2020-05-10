@@ -15,10 +15,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.PrimeFaces;
 
 /**
  *
- * @author alanlomeli
+ * @author
  */
 @Named
 @ViewScoped
@@ -67,5 +68,14 @@ public class TablaUsuarios implements Serializable {
         } catch (IOException ex) {
             System.out.println("Error redireccionando");
         }
+    }
+
+    public void activarDesactivar(int id, Boolean activar) throws Exception {
+        UsuarioJpaController usuarioController = new UsuarioJpaController();
+        Usuario usuario = usuarioController.findUsuario(id);
+        usuario.setActivo(activar);
+        usuarioController.edit(usuario);
+        PrimeFaces.current().executeScript("location.reload();");
+
     }
 }

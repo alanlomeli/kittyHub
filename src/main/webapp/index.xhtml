@@ -14,10 +14,9 @@
                 margin-top:20px;
             }
             .wrapper{
+                margin-left:130px;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
             }
             .ui-panel .ui-panel-content {
                 padding:0px!important;
@@ -34,6 +33,18 @@
             }
             .fakeInput{
                 width:500px;
+            }
+            .parent{
+                display: flex;
+                justify-content: center;
+                width:100%;
+            }
+            .segundaColumna{
+                margin-top:110px;
+                margin-left:10px;
+            }
+            #ad{
+                cursor:pointer;
             }
         </style>
     </h:head>
@@ -65,30 +76,42 @@
             </p:panel>
         </div>
         -->
-        <div class="wrapper">
-            <a href="dar_adopcion.xhtml">
-                <div class="subirFake">
+        <div class="parent">
+            <div class="wrapper">
+                <a href="dar_adopcion.xhtml">
+                    <div class="subirFake">
 
-                    <h:graphicImage   style="margin:10px;" width="50px" height="50px"  name="imagenes/gato_icono.png" />
-                    <h:form>
-                        <p:inputTextarea  styleClass="fakeInput" value="Publicar gato en adopcion" rows="2"  />
-                    </h:form>
+                        <h:graphicImage   style="margin:10px;" width="50px" height="50px"  name="imagenes/gato_icono.png" />
+                        <h:form>
+                            <p:inputTextarea  styleClass="fakeInput" value="Publicar gato en adopcion" rows="2"  />
+                        </h:form>
 
-                </div>
-            </a>
-            <ui:repeat  var="o" value="#{publicaciones.publicaciones}" >
-
-                <a href="ver_post.xhtml?id=#{o.publicacionId}"> 
-                    <p:panel styleClass="publicaciones"  header="#{o.titulo}" footer="por #{o.usuarioFk.nombre}" style="margin-bottom:20px">
-                        <h:panelGrid columns="1">
-                            <p:graphicImage width="590px" value="#{obtenerFoto.image}">
-                                <f:param name="filename" value="#{o.foto}" />
-                            </p:graphicImage>               
-
-                        </h:panelGrid>
-                    </p:panel>
+                    </div>
                 </a>
-            </ui:repeat>
+                <ui:repeat  var="o" value="#{publicaciones.publicaciones}" >
+
+                    <a href="ver_post.xhtml?id=#{o.publicacionId}"> 
+                        <p:panel styleClass="publicaciones"  header="#{o.titulo}" footer="por #{o.usuarioFk.nombre}" style="margin-bottom:20px">
+                            <h:panelGrid columns="1">
+                                <p:graphicImage width="590px" value="#{obtenerFoto.image}">
+                                    <f:param name="filename" value="#{o.foto}" />
+                                </p:graphicImage>               
+
+                            </h:panelGrid>
+                        </p:panel>
+                    </a>
+                </ui:repeat>
+            </div>
+
+            <div class="segundaColumna">
+                <p:panel styleClass="publicidad"  header="ADVERTISEMENT"  style="margin-bottom:50px">
+                    <h:panelGrid columns="1">
+                          <h:graphicImage id="ad"  width="300px" height="250px" name="imagenes/ad.gif" />
+
+
+                    </h:panelGrid>
+                </p:panel>
+            </div>
         </div>
     </h:body>
 </html>

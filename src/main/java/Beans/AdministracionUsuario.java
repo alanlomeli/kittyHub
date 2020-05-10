@@ -16,7 +16,7 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author alanlomeli
+ * @author 
  */
 @Named
 @ApplicationScoped

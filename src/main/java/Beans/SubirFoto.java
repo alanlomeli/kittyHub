@@ -38,6 +38,7 @@ public class SubirFoto {
 
     private UploadedFile foto;
     private StreamedContent image;
+    private String ruta = "/Volumes/1TB Homework/kittyhub";
 
     @PostConstruct 
         public void init(){
@@ -47,7 +48,7 @@ public class SubirFoto {
         if (foto != null) {
             FacesMessage message = new FacesMessage("Successful", foto.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
-            Path folder = Paths.get("/Volumes/1TB Homework/kittyhub");
+            Path folder = Paths.get(ruta);
             String filename = FilenameUtils.getBaseName(foto.getFileName());
             String extension = FilenameUtils.getExtension(foto.getFileName());
 
@@ -67,7 +68,9 @@ public class SubirFoto {
     public StreamedContent getImage() {
         return image;
     }
-
+    public String getRuta(){
+        return ruta;
+    }
  
 
     public UploadedFile getFoto() {

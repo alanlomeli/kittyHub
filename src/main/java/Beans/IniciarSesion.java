@@ -49,24 +49,27 @@ public class IniciarSesion implements Serializable {
         if (query.getResultList().size() > 0) {
             Usuario usuarioTemp = (Usuario) query.getSingleResult();
             if (AES.decrypt(new String(usuarioTemp.getContrasena())).equals(campoContra)) {
-                // FacesContext.getCurrentInstance().addMessage(null,
-                //new FacesMessage("Bienvenido "+campoUsuario));
-                sesion.setIniciado(true); //Ponemos el usuario al bean para que se inicie sesión
-                sesion.setUsuario(campoUsuario);
-                sesion.setTipo(usuarioTemp.getTipo());
-                sesion.setUsuario_id(usuarioTemp.getUsuarioId());
-                try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home
-                } catch (IOException ex) {
-                    System.out.println("Error redireccionando");
+                if (usuarioTemp.getActivo()) {
+                    sesion.setIniciado(true); //Ponemos el usuario al bean para que se inicie sesión
+                    sesion.setUsuario(campoUsuario);
+                    sesion.setTipo(usuarioTemp.getTipo());
+                    sesion.setUsuario_id(usuarioTemp.getUsuarioId());
+                    try {
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home
+                    } catch (IOException ex) {
+                        System.out.println("Error redireccionando");
+                    }
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Tu cuenta ha sido desactivada", null));
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos", null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos.", null));
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos", null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario o contraseña son incorrectos.", null));
         }
         usuarioController = new UsuarioJpaController();
 

@@ -64,7 +64,22 @@ public class Toolbar implements Serializable {
             checkTrasspass();
             paginaActual = "Usuarios";
             iconoActual = "fa fa-reddit";
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/registro.xhtml")) {
+            if (sesion.isIniciado()) {
+                irA("index.xhtml");
+            }
+            paginaActual = "Creando";
+            iconoActual = "fa fa-edit";
+        } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/login.xhtml")) {
+            if (sesion.isIniciado()) {
+                irA("index.xhtml");
+            }
+            paginaActual = "Creando";
+            iconoActual = "fa fa-edit";
         } else {
+            if (sesion.isIniciado()) {
+
+            }
             paginaActual = "Creando";
             iconoActual = "fa fa-edit";
 
@@ -75,36 +90,29 @@ public class Toolbar implements Serializable {
 
     public void checkTrasspass() {
         if (!sesion.isIniciado()) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("404.xhtml");  //Redireccionamos a un error
-            } catch (IOException ex) {
-                System.out.println("Error redireccionando");
-            }
+            irA("404.xhtml");
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/usuarios.xhtml") && sesion.getTipo() != 3) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("404.xhtml");  //Redireccionamos a un error
-            } catch (IOException ex) {
-                System.out.println("Error redireccionando");
-            }
+            irA("404.xhtml");
         } else if (FacesContext.getCurrentInstance().getViewRoot().getViewId().equals("/posts.xhtml") && (sesion.getTipo() != 2 && sesion.getTipo() != 3)) {
-            System.out.println(sesion.getTipo());
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("404.xhtml");  //Redireccionamos a un error
-            } catch (IOException ex) {
-                System.out.println("Error redireccionando");
-            }
+            irA("404.xhtml");
+
         }
 
     }
 
     public void cerrarSesion() {
+        irA("index.xhtml");
         sesion.setIniciado(false);
         sesion.setUsuario("");
         sesion.setTipo(0);
         sesion.setUsuario_id(0);
         setOpcionesSesion();
+
+    }
+
+    public void irA(String direccion) {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home
+            FacesContext.getCurrentInstance().getExternalContext().redirect(direccion);  //Redireccionamos 
         } catch (IOException ex) {
             System.out.println("Error redireccionando");
         }

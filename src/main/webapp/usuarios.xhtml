@@ -71,9 +71,9 @@
               
                 <p:column  styleClass="iconColumn" headerText="">
                     <h:form >
-                        <p:commandLink rendered="#{usuario.activo}" style="color:white;" ><i class="fa fa-fw fa-times"></i>  
+                        <p:commandLink actionListener="#{tablaUsuarios.activarDesactivar(usuario.usuarioId, !usuario.activo)}" rendered="#{usuario.activo}" style="color:white;" ><i class="fa fa-fw fa-times"></i>  
                         </p:commandLink>
-                        <p:commandLink rendered="#{!usuario.activo}" style="color:white;"><i class="fa fa-fw fa-plus"></i>  
+                        <p:commandLink actionListener="#{tablaUsuarios.activarDesactivar(usuario.usuarioId, !usuario.activo)}" rendered="#{!usuario.activo}" style="color:white;"><i class="fa fa-fw fa-plus"></i>  
                         </p:commandLink>
                     </h:form>         
                 </p:column>

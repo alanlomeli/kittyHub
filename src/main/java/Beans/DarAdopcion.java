@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Beans;
-
+//
 import Controladores.PublicacionJpaController;
 import Controladores.RazaJpaController;
 import Controladores.UbicacionJpaController;
@@ -50,14 +50,9 @@ public class DarAdopcion implements Serializable {
 
     private int campoUbicacion;
     private boolean campoSexo;
-    private UploadedFile campoFoto;
+    private UploadedFile campoFoto, working;
     private StreamedContent image;
-    private boolean activo;
 
-    //campos requeridos cuando se edita
-    private boolean edicion;
-    private int publicacionId;
-    private int autor;
     private Raza raza;
     private UbicacionJpaController estadoController;
     private RazaJpaController razaController;
@@ -66,20 +61,22 @@ public class DarAdopcion implements Serializable {
 
     @PostConstruct
     public void init() {
-        edicion = false;
+
         if (!sesion.isIniciado()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");  //Redireccionamos al home
             } catch (IOException ex) {
                 System.out.println("Error redireccionando");
             }
+        } else {
+
         }
     }
 
     public void publicarAdopcion() {
         if (campoFoto != null) {
+            working = campoFoto;
             if (campoFoto.getSize() > 0) {
-
                 publicacionController = new PublicacionJpaController();
                 Publicacion publicacion = new Publicacion();
                 publicacion.setUbicacionFk(estadoController.findUbicacion(campoUbicacion));
@@ -92,10 +89,10 @@ public class DarAdopcion implements Serializable {
                 publicacion.setActivo(true);
                 publicacion.setEstadoAdopcion(false);
                 publicacion.setEdad((short) campoEdad);
-
+                SubirFoto ruta= new SubirFoto();
                 FacesMessage message = new FacesMessage("Successful", campoFoto.getFileName() + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, message);
-                Path folder = Paths.get("/Volumes/1TB Homework/kittyhub");
+                Path folder = Paths.get(ruta.getRuta());
                 String filename = FilenameUtils.getBaseName(campoFoto.getFileName());
                 String extension = FilenameUtils.getExtension(campoFoto.getFileName());
 
@@ -107,16 +104,26 @@ public class DarAdopcion implements Serializable {
                     publicacionController.create(publicacion);
                     System.out.println("Uploaded file successfully saved in " + file);
                     campoFoto = null;
+                    campoTitulo = "";
+                    campoDescripcion = "";
+                    campoNombre = "";
+                    campoEdad = 0;
+                    campoUbicacion = 0;
+                    campoSexo = false;
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");  //Redireccionamos al home
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes adjuntar una foto", null));
+                campoFoto = working;
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes adjuntar una foto", null));
+            campoFoto = working;
+
         }
     }
 
@@ -206,38 +213,6 @@ public class DarAdopcion implements Serializable {
 
     public void setRazas(List<Raza> razas) {
         this.razas = razas;
-    }
-
-    public boolean isEdicion() {
-        return edicion;
-    }
-
-    public void setEdicion(boolean edicion) {
-        this.edicion = edicion;
-    }
-
-    public int getPublicacionId() {
-        return publicacionId;
-    }
-
-    public void setPublicacionId(int publicacionId) {
-        this.publicacionId = publicacionId;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-
-    public int getAutor() {
-        return autor;
-    }
-
-    public void setAutor(int autor) {
-        this.autor = autor;
     }
 
 }
